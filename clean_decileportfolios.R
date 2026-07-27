@@ -1,5 +1,6 @@
 library(readr)
 library(dplyr)
+library(lubridate)
 
 # Import tables: portfolio_data for decile portfolios, famafrench_data for risk-free rate
 portfolio_data <- read.csv("/Users/angiewang/Desktop/FOMCDrift/data/raw/Portfolios_Formed_on_ME_daily.csv")
@@ -18,6 +19,7 @@ decile_returns <- decile_returns %>% mutate(decile_returns, across(c(Lo.10, X2.D
 decile_returns$Date <- as.Date(decile_returns$Date, format = "%Y%m%d")
 decile_returns <- decile_returns[-c(1:3),]
 decile_returns <- decile_returns %>% filter(Date >= "1994-09-01" & Date <="2011-03-30")
+decile_returns <- decile_returns %>% mutate(year = year(Date))
 
 # Add dummy variable column: 1 if fomc announcement date, 0 otherwise
 fomc_dates <- c("19940927", "19941115", "19941220",
