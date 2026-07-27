@@ -1,25 +1,25 @@
 library(readr)
 library(dplyr)
 
-# import tables: portfolio_data for decile portfolios, famafrench_data for risk-free rate
+# Import tables: portfolio_data for decile portfolios, famafrench_data for risk-free rate
 portfolio_data <- read.csv("/Users/angiewang/Desktop/FOMCDrift/data/raw/Portfolios_Formed_on_ME_daily.csv")
 famafrench_data <- read.csv("/Users/angiewang/Desktop/FOMCDrift/data/raw/F-F_Research_Data_Factors_daily.CSV")
 
-# drop irrelevant columns in both dataframes
+# Drop irrelevant columns in both dataframes
 portfolio_data <- subset(portfolio_data, select = c(Date, Lo.10, X2.Dec, X3.Dec, X4.Dec, X5.Dec, X6.Dec, X7.Dec, X8.Dec, X9.Dec, Hi.10))
 portfolio_data <- portfolio_data[c(1:25901),]
 famafrench_data <- subset(famafrench_data, select = c(Date, RF))
 
-# merge dataframes by date
+# Merge dataframes by date
 decile_returns <- merge(portfolio_data, famafrench_data, by = "Date")
 decile_returns <- decile_returns %>% mutate(decile_returns, across(c(Lo.10, X2.Dec, X3.Dec, X4.Dec, X5.Dec, X6.Dec, X7.Dec, X8.Dec, X9.Dec, Hi.10), as.numeric))
 
-# clean rows to only show dates between 1994-09-01 and 2011-03-31
+# Clean rows to only show dates between 1994-09-01 and 2011-03-31
 decile_returns$Date <- as.Date(decile_returns$Date, format = "%Y%m%d")
 decile_returns <- decile_returns[-c(1:3),]
-decile_returns <- decile_returns %>% filter(Date >= "1994-09-01" & Date <="2011-03-31")
+decile_returns <- decile_returns %>% filter(Date >= "1994-09-01" & Date <="2011-03-30")
 
-# add dummy variable column: 1 if fomc announcement date, 0 otherwise
+# Add dummy variable column: 1 if fomc announcement date, 0 otherwise
 fomc_dates <- c("19940927", "19941115", "19941220",
                 "19950201", "19950328", "19950523", "19950706","19950822", "19950926", "19951115", "19951219",
                 "19960131", "19960521", "19960703", "19960820","19960924", "19961113", "19961217",
@@ -41,16 +41,52 @@ fomc_dates <- c("19940927", "19941115", "19941220",
 fomc_dates <- as.Date(fomc_dates, format = "%Y%m%d")
 decile_returns <- decile_returns %>% mutate(fomc = ifelse(Date %in% fomc_dates, 1, 0))
 
-# add columns for excess returns (decile portfolio return minus risk-free rate)
-decile_returns <- decile_returns %>% mutate(Dec1Excess = Lo.10 - RF)
-decile_returns <- decile_returns %>% mutate(Dec2Excess = X2.Dec - RF)
-decile_returns <- decile_returns %>% mutate(Dec3Excess = X3.Dec - RF)
-decile_returns <- decile_returns %>% mutate(Dec4Excess = X4.Dec - RF)
-decile_returns <- decile_returns %>% mutate(Dec5Excess = X5.Dec - RF)
-decile_returns <- decile_returns %>% mutate(Dec6Excess = X6.Dec - RF)
-decile_returns <- decile_returns %>% mutate(Dec7Excess = X7.Dec - RF)
-decile_returns <- decile_returns %>% mutate(Dec8Excess = X8.Dec - RF)
-decile_returns <- decile_returns %>% mutate(Dec9Excess = X9.Dec - RF)
-decile_returns <- decile_returns %>% mutate(Dec10Excess = Hi.10 - RF)
+# Add columns for excess returns and log excess returns
+decile_returns <- decile_returns %>%
+  mutate(
+    Dec1Excess = Lo.10 - RF,
+    Dec1LogExcess =
+      100 * (log1p(Lo.10 / 100) - log1p(RF / 100)),
+    
+    Dec2Excess = X2.Dec - RF,
+    Dec2LogExcess =
+      100 * (log1p(X2.Dec / 100) - log1p(RF / 100)),
+    
+    Dec3Excess = X3.Dec - RF,
+    Dec3LogExcess =
+      100 * (log1p(X3.Dec / 100) - log1p(RF / 100)),
+    
+    Dec4Excess = X4.Dec - RF,
+    Dec4LogExcess =
+      100 * (log1p(X4.Dec / 100) - log1p(RF / 100)),
+    
+    Dec5Excess = X5.Dec - RF,
+    Dec5LogExcess =
+      100 * (log1p(X5.Dec / 100) - log1p(RF / 100)),
+    
+    Dec6Excess = X6.Dec - RF,
+    Dec6LogExcess =
+      100 * (log1p(X6.Dec / 100) - log1p(RF / 100)),
+    
+    Dec7Excess = X7.Dec - RF,
+    Dec7LogExcess =
+      100 * (log1p(X7.Dec / 100) - log1p(RF / 100)),
+    
+    Dec8Excess = X8.Dec - RF,
+    Dec8LogExcess =
+      100 * (log1p(X8.Dec / 100) - log1p(RF / 100)),
+    
+    Dec9Excess = X9.Dec - RF,
+    Dec9LogExcess =
+      100 * (log1p(X9.Dec / 100) - log1p(RF / 100)),
+    
+    Dec10Excess = Hi.10 - RF,
+    Dec10LogExcess =
+      100 * (log1p(Hi.10 / 100) - log1p(RF / 100))
+  )
 
-
+# Save decile_returns dataframe as RDS file
+saveRDS(
+  decile_returns,
+  "/Users/angiewang/Desktop/FOMCDrift/data/processed/decile_returns_clean.rds"
+)
