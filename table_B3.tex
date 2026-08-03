@@ -1,0 +1,111 @@
+\documentclass[landscape]{article}
+\usepackage{booktabs} % Required for creating tables
+\usepackage{pdflscape}
+\usepackage{rotating}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{threeparttable}
+\usepackage{hyperref}
+\usepackage[landscape,margin=0.7in]{geometry}
+
+
+\begin{document}
+
+\title{Table B.3 Replication}
+\author{Angie Wang}
+\date{July 2026}
+\maketitle
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lcccccc}
+
+\toprule
+\multicolumn{7}{l}{
+\textbf{Dependent Variable:} \% Log-excess return of CRSP portfolio index} \\
+\midrule
+\textbf{Portfolio:} &
+Value Weighted &
+Equal Weighted & 
+1st Decile & 
+2nd Decile & 
+3rd Decile & 
+4th Decile \\
+\midrule
+
+FOMC dummy   
+& {TBD} & {TBD} & 0.21 & 0.43 & 0.44 & 0.46 \\
+
+{} & [tbd] & [tbd] & [0.08]$^{**}$ & [0.13]$^{***}$ & [0.12]$^{***}$ & [0.12]$^{***}$ \\
+
+Constant 
+& {TBD} & {TBD} & 0.03 & 0.02 & 0.02 & 0.01 \\
+
+{} & [tbd] & [tbd] & [0.02] & [0.02] & [0.02] & [0.02] \\
+
+
+\midrule
+
+Annual ex-return FOMC 
+& {TBD} & {TBD} & 1.91 & 3.60 & 3.60 & 3.76 \\
+
+Annual ex-return non-FOMC 
+& {TBD} & {TBD} & 6.32 & 4.23 & 3.82 & 2.68 \\
+
+FOMC Sharpe Ratio 
+& {TBD} & {TBD} & 0.72 & 0.87 & 0.93 & 0.98 \\
+
+\midrule
+\midrule
+
+\textbf{Portfolio:} & 
+5th Decile & 
+6th Decile & 
+7th Decile & 
+8th Decile &
+9th Decile & 
+10th Decile \\
+
+\midrule
+
+FOMC dummy
+& 0.49 & 0.42 & 0.40 & 0.40 & 0.39 & 0.31 \\
+
+{} & [0.12]$^{***}$ & [0.11]$^{***}$ & [0.10]$^{***}$ & [0.11]$^{***}$ & [0.10]$^{***}$ & [0.10]$^{***}$ \\
+
+Constant 
+& 0.01 & 0.01 & 0.02 & 0.01 & 0.02 & 0.02 \\
+
+{} & [0.02] & [0.02] & [0.02] & [0.02] & [0.02] & [0.02] \\
+
+\midrule
+
+Annual ex-return FOMC 
+& 3.97 & 3.44 & 3.36 & 3.31 & 3.21 & 2.54 \\
+
+Annual ex-return non-FOMC 
+& 2.62 & 3.40 & 4.61 & 3.41 & 4.81 & 1.92 \\
+
+FOMC Sharpe Ratio 
+& 1.08 & 1.02 & 1.04 & 0.99 & 0.99 & 0.80 \\
+
+
+\bottomrule
+\end{tabular}
+
+
+\caption*{
+\textbf{Table B.3. CRSP Size Portfolio Regressions: 1994--2011.}
+This table provides results for a FOMC dummy variable regression of different weighted U.S. equity portfolios over the sample period from September 1, 1994 through March 30, 2011. The dependent variable is daily percent log-excess returns, and portfolios include value-weighted and equal weighted portfolios from CRSP as well as the ten decile size portfolios from \href{https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html}{Ken French's online data library}. ``FOMC dummy'' is 1 on days with a FOMC meeting and 0 otherwise. ``Annual ex-return FOMC'' is the average cumulative annual excess return on FOMC days, and ``Annual ex-return non-FOMC'' is the average cumulative annual return on non-FOMC days in the sample. ``FOMC Sharpe Ratio'' is the annualized Sharpe ratio on pre-FOMC returns. Slight differences in values may be due to CRSP revisions and changes in French’s daily portfolio methodology. *** significant at 1\%, ** significant at 5\%, * significant at 10\%. HC1 robust standard errors shown in brackets.
+}
+
+\end{threeparttable}
+\end{table}
+
+
+
+\end{document}
+
