@@ -53,3 +53,6 @@ crsp_portfolio <- crsp_portfolio %>%
 
 # Save decile_returns dataframe as RDS file
 saveRDS(crsp_portfolio, here("data", "processed", "crsp_returns_clean.rds"))
+
+# Save decile_returns dataframe as .csv file (without row numbers)
+write.csv(crsp_portfolio, here("data", "processed", "crspreturns.csv") row.names = FALSE)
